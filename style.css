@@ -65,8 +65,15 @@ h2 {
 .links {
     display: flex;
     justify-content: center;
+    align-items: center;
     gap: 15px;
     margin-bottom: 50px;
+    flex-wrap: wrap; /* Чтобы кнопки не сжимались на узких экранах */
+}
+
+/* Также убедитесь, что есть отступ для иконок */
+.links i {
+    margin-right: 8px;
 }
 
 .btn {
