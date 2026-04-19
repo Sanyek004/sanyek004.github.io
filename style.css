@@ -289,3 +289,38 @@ i {
     text-decoration: none;
     font-weight: 600;
 }
+
+/* --- Тёмная тема --- */
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #121212;
+        color: #e0e0e0;
+    }
+    h1, .portfolio h3, .project-card h4, .edu-info h4 {
+        color: #ffffff;
+    }
+    h2 { color: #aaaaaa; }
+    .bio, .project-card p, .edu-info p {
+        color: #bbbbbb;
+    }
+    .project-card, .modal-content, .dropdown-content {
+        background-color: #1e1e1e;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    }
+    .edu-card {
+        background-color: #2a2a2a;
+        border-color: #444;
+    }
+    .btn-outline {
+        color: #e0e0e0;
+        border-color: #e0e0e0;
+    }
+    .btn-outline:hover {
+        background-color: #e0e0e0;
+        color: #121212;
+    }
+    .dropdown-content a { color: #e0e0e0; }
+    .dropdown-content a:hover { background-color: #333; }
+    .close-btn { color: #bbb; }
+    .close-btn:hover { color: #fff; }
+}
