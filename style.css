@@ -355,21 +355,21 @@ i {
 
 	h1 {
 		font-size: 2.5rem;
-		margin-bottom: 0px; /* Убрали отступ, чтобы ник был ближе к имени */
-		color: #111;
+		margin-bottom: 0px;
+		color: #ffffff;
 	}
 
 	/* Стили для никнейма */
 	.nickname {
 		font-size: 1.1rem;
-		color: #888; /* Приятный серый цвет */
+		color: #aaaaaa; /* Светло-серый */
 		font-weight: 500;
 		margin-bottom: 15px;
 	}
 
 	h2 {
 		font-size: 1.2rem;
-		color: #555;
+		color: #cccccc; /* Светло-серый */
 		font-weight: 400;
 		margin-bottom: 20px;
 	}
