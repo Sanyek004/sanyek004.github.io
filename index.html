@@ -59,24 +59,43 @@
 					</div>
 				</div>
 			</div>        
-            <section class="portfolio">
+			<section class="portfolio">
                 <h3>Мои проекты</h3>
-                <div class="projects-grid">
-                    
-                    <div class="project-card">
-                        <h4>Система автоматизации «Академия Киокусинкай»</h4>
-                        <p>Десктопное приложение для автоматизации работы спортивной организации (учет тренеров, учеников и составление расписания тренировок). Проект разработан в рамках производственной практики в колледже в 2023 году.</p>
-                        <a href="https://github.com/Sanyek004/kyokushinkai-industrial-practice-2023-qt" target="_blank">Посмотреть код &rarr;</a>
-                    </div>
+                
+                <div class="tabs">
+                    <button class="tab-btn active" onclick="showProjects('coding', this)">
+                        <i class="fas fa-code"></i> Программирование
+                    </button>
+                    <button class="tab-btn" onclick="showProjects('video', this)">
+                        <i class="fas fa-film"></i> Видеомонтаж
+                    </button>
+                </div>
 
-					
-					<div class="project-card">
-                        <h4>Учебный фронтенд проект "Securo Serv"</h4>
-                        <p>Securo Serv — это учебный фронтенд-проект, разработанный в 2022 году. Представляет собой статический многостраничный сайт-визитку для вымышленного частного охранного предприятия (вдохновлено вселенной GTA V).</p>
-                        <p>Проект демонстрирует базовые навыки веб-разработки без использования тяжелых фреймворков, опираясь исключительно на нативные возможности браузера и чистый JavaScript.</p>
-                        <a href="https://github.com/Sanyek004/Web-Site-Securo-Serv" target="_blank">Посмотреть код &rarr;</a>
+                <div id="coding-projects" class="projects-content active">
+                    <div class="projects-grid">
+                        <div class="project-card">
+                            <h4>Система автоматизации «Академия Киокусинкай»</h4>
+                            <p>Десктопное приложение для автоматизации работы спортивной организации (учет тренеров, учеников и составление расписания тренировок). Проект разработан в рамках производственной практики в колледже в 2023 году.</p>
+                            <a href="https://github.com/Sanyek004/kyokushinkai-industrial-practice-2023-qt" target="_blank">Посмотреть код &rarr;</a>
+                        </div>
+                        <div class="project-card">
+                            <h4>Учебный фронтенд проект "Securo Serv"</h4>
+                            <p>Securo Serv — это учебный фронтенд-проект, разработанный в 2022 году. Представляет собой статический многостраничный сайт-визитку для вымышленного частного охранного предприятия.</p>
+                            <a href="https://github.com/Sanyek004/Web-Site-Securo-Serv" target="_blank">Посмотреть код &rarr;</a>
+                        </div>
                     </div>
-					
+                </div>
+
+                <div id="video-projects" class="projects-content">
+<!--
+                    <div class="projects-grid">
+                        <div class="project-card">
+                            <h4>Рекламный ролик для соцсетей</h4>
+                            <p>Динамичный монтаж, базовая цветокоррекция и саунд-дизайн для локального бренда одежды. Сделано в Premiere Pro.</p>
+                            <a href="404.html">Смотреть видео &rarr;</a>
+                        </div>
+                        </div>
+-->
                 </div>
             </section>
         </main>
@@ -87,7 +106,7 @@
         </footer>
     </div>
     <script>
-				function openModal() {
+		function openModal() {
 			document.getElementById("eduModal").style.display = "flex";
 		}
 
@@ -117,6 +136,23 @@
 				}
 			}
 		}
+		
+		// Функция переключения вкладок портфолио
+        function showProjects(category, btnElement) {
+            // 1. Скрываем все блоки с карточками
+            let contents = document.querySelectorAll('.projects-content');
+            contents.forEach(content => content.classList.remove('active'));
+
+            // 2. Убираем синюю заливку со всех кнопок
+            let buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+
+            // 3. Показываем нужный блок
+            document.getElementById(category + '-projects').classList.add('active');
+
+            // 4. Закрашиваем нажатую кнопку
+            btnElement.classList.add('active');
+        }
     </script>
 </body>
 </html>

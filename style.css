@@ -290,6 +290,62 @@ i {
     font-weight: 600;
 }
 
+/* --- Табы (Переключатели категорий проектов) --- */
+.tabs {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.tab-btn {
+    background-color: transparent;
+    border: 2px solid #007bff;
+    color: #007bff;
+    padding: 10px 25px;
+    border-radius: 30px; /* Круглые края как у пилюли */
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.tab-btn:hover {
+    background-color: rgba(0, 123, 255, 0.1);
+}
+
+/* Активная кнопка */
+.tab-btn.active {
+    background-color: #007bff;
+    color: #fff;
+    box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
+}
+
+/* --- Контент проектов (переключение) --- */
+.projects-content {
+    display: none; /* Скрыто по умолчанию */
+    animation: fadeInSlideUp 0.4s ease-out forwards; /* Плавная анимация появления */
+}
+
+/* Показываем только активный блок */
+.projects-content.active {
+    display: block; 
+}
+
+/* Анимация: появление + легкий сдвиг вверх */
+@keyframes fadeInSlideUp {
+    from { 
+        opacity: 0; 
+        transform: translateY(20px); 
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0); 
+    }
+}
+
 /* --- Тёмная тема --- */
 @media (prefers-color-scheme: dark) {
     body {
@@ -323,4 +379,8 @@ i {
     .dropdown-content a:hover { background-color: #333; }
     .close-btn { color: #bbb; }
     .close-btn:hover { color: #fff; }
+    
+    .tab-btn { border-color: #4da3ff; color: #4da3ff; }
+    .tab-btn:hover { background-color: rgba(77, 163, 255, 0.1); }
+    .tab-btn.active { background-color: #4da3ff; color: #121212; box-shadow: 0 4px 10px rgba(77, 163, 255, 0.2); }
 }
