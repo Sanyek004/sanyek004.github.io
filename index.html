@@ -6,165 +6,232 @@
     <title>Zillendaw</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <header>
-			<div class="profile-img">
-                <img src="logo.png" alt="Фото Zillendaw">
-            </div>
-			<h1>Александр Хван</h1>
-            <div class="nickname">@Zillendaw</div>
-            
-            <h2>Программист, Видеомонтажёр</h2>
-            <p class="bio">
-                Скоро будет здесь описание обо мне...
-            </p>
-        </header>
-        <main>
-			<section class="links">
-                <a href="https://github.com/Zillendaw" target="_blank" class="btn">
-                    <i class="fab fa-github"></i> GitHub
-                </a>
 
-			<button onclick="openModal()" class="btn btn-outline">
-					<i class="fas fa-graduation-cap"></i> Образование
-				</button>
-           
-                <div class="dropdown">
-                    <button onclick="toggleMenu()" class="btn btn-outline">
-                         Написать мне
+    <!-- =============================================
+         СТАРТОВЫЙ ЭКРАН
+         ============================================= -->
+    <div id="entry-screen" class="entry-screen">
+
+        <!-- ФАЗА 1: Профиль (анимируется автоматически) -->
+        <div class="intro" id="intro">
+
+            <div class="intro__avatar anim-item" style="--d:0.1s">
+                <img src="logo.png" alt="Zillendaw">
+                <div class="intro__avatar-ring"></div>
+            </div>
+
+            <h1 class="intro__name anim-item" style="--d:0.4s">Александр Хван</h1>
+
+            <a href="https://t.me/Zillendaw" target="_blank" class="intro__tg anim-item" style="--d:0.65s">
+                <i class="fab fa-telegram"></i>
+                <span>@Zillendaw</span>
+            </a>
+
+            <p class="intro__bio anim-item" style="--d:0.9s">
+                Программист и видеомонтажёр.<br>Люблю создавать — будь то код или кадр.
+            </p>
+
+            <div class="intro__scroll-hint anim-item" style="--d:1.4s">
+                <span>Выбери направление</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+        </div>
+
+        <!-- ФАЗА 2: Карточки выбора (появляются после профиля) -->
+        <div class="split-row" id="split-row">
+
+            <div class="split-card split-card--dev" id="half-dev" onclick="enter('dev')">
+                <div class="split-card__glow"></div>
+                <div class="split-card__inner">
+                    <div class="split-card__icons">
+                        <i class="fas fa-code"></i>
+                        <i class="fas fa-gamepad"></i>
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <h2 class="split-card__title">Разработка</h2>
+                    <ul class="split-card__tags">
+                        <li>Разработчик ПО</li>
+                        <li>Web-разработчик</li>
+                        <li>Разработчик игр</li>
+                    </ul>
+                    <span class="split-card__cta">Войти <i class="fas fa-arrow-right"></i></span>
+                </div>
+            </div>
+
+            <div class="split-card split-card--video" id="half-video" onclick="enter('video')">
+                <div class="split-card__glow"></div>
+                <div class="split-card__inner">
+                    <div class="split-card__icons">
+                        <i class="fas fa-film"></i>
+                        <i class="fas fa-magic"></i>
+                        <i class="fas fa-cut"></i>
+                    </div>
+                    <h2 class="split-card__title">Видеомонтаж</h2>
+                    <ul class="split-card__tags">
+                        <li>Post-Production</li>
+                        <li>Motion Design</li>
+                        <li>Видеомонтаж</li>
+                    </ul>
+                    <span class="split-card__cta">Войти <i class="fas fa-arrow-right"></i></span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- =============================================
+         ОСНОВНОЙ САЙТ
+         ============================================= -->
+    <div id="main-site" class="main-site main-site--hidden">
+        <div class="container">
+
+            <header>
+                <button class="back-btn" onclick="goBack()">
+                    <i class="fas fa-arrow-left"></i> Сменить раздел
+                </button>
+                <div class="profile-img">
+                    <img src="logo.png" alt="Фото Zillendaw">
+                </div>
+                <h1>Александр Хван</h1>
+                <div class="nickname">@Zillendaw</div>
+                <h2 id="site-subtitle"></h2>
+                <p class="bio">Программист и видеомонтажёр. Люблю создавать — будь то код или кадр.</p>
+
+                <div class="links">
+                    <a href="https://github.com/Zillendaw" target="_blank" class="btn">
+                        <i class="fab fa-github"></i> GitHub
+                    </a>
+                    <button onclick="openModal()" class="btn btn-outline">
+                        <i class="fas fa-graduation-cap"></i> Образование
                     </button>
-                    <div id="contactMenu" class="dropdown-content">
-                        <a href="mailto:mossy009@mail.ru">
-                            <i class="fas fa-envelope"></i> Электронная почта
-                        </a>
-                        <a href="404.html">
-                            <i class="fab fa-telegram"></i> Telegram
-                        </a>
+                    <div class="dropdown">
+                        <button onclick="toggleMenu()" class="btn btn-outline">
+                            <i class="fas fa-paper-plane"></i> Написать мне
+                        </button>
+                        <div id="contactMenu" class="dropdown-content">
+                            <a href="mailto:mossy009@mail.ru">
+                                <i class="fas fa-envelope"></i> Электронная почта
+                            </a>
+                            <a href="https://t.me/Zillendaw" target="_blank">
+                                <i class="fab fa-telegram"></i> Telegram
+                            </a>
+                        </div>
                     </div>
                 </div>
-            </section>   
-				<div id="eduModal" class="modal">
-				<div class="modal-content">
-					<span class="close-btn" onclick="closeModal()">&times;</span>
-					<h3>Моё образование</h3>
-					<div class="edu-cards-container">
-						<div class="edu-card">
-							<div class="edu-icon"><i class="fas fa-user-graduate"></i></div>
-							<div class="edu-info">
-								<h3>Среднее профессиональное образование</h3>
-								<h5>2020-2025</h5>
-								<p>Специальность: Информационные системы и программирование</p>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>        
-			<section class="portfolio">
-                <h3>Мои проекты</h3>
-                
-                <div class="tabs">
-                    <button class="tab-btn active" onclick="showProjects('coding', this)">
-                        <i class="fas fa-code"></i> Программирование
-                    </button>
-                    <button class="tab-btn" onclick="showProjects('video', this)">
-                        <i class="fas fa-film"></i> Видеомонтаж
-                    </button>
-                </div>
+            </header>
 
-                <div id="coding-projects" class="projects-content active">
-                    <div class="projects-grid">
-                        <div class="project-card">
-                            <h4>Система автоматизации «Академия Киокусинкай»</h4>
-                            <p>Десктопное приложение для автоматизации работы спортивной организации (учет тренеров, учеников и составление расписания тренировок). Проект разработан в рамках производственной практики в колледже в 2023 году.</p>
-                            <a href="https://github.com/Zillendaw/kyokushinkai-industrial-practice-2023-qt" target="_blank">Посмотреть код &rarr;</a>
-                        </div>
-                        
-                        <div class="project-card">
-                            <h4>Учебный фронтенд проект "Securo Serv"</h4>
-                            <p>Securo Serv — это учебный фронтенд-проект, разработанный в 2022 году. Представляет собой статический многостраничный сайт-визитку для вымышленного частного охранного предприятия.</p>
-                            <a href="https://github.com/Zillendaw/Web-Site-Securo-Serv" target="_blank">Посмотреть код &rarr;</a>
-                        </div>
-                        
-							<div class="project-card">
-                            <h4>Веб-сайт для строительной компании</h4>
-                            <p>Full-stack веб-приложение, разработанное для компании, специализирующейся на инженерных системах и водоочистке. Платформа включает в себя "Экспертную систему" для автоматического подбора оборудования и систему сбора лидов с моментальной отправкой заявок через Telegram API.</p>
-                            <a href="https://github.com/Zillendaw/engineering-company-portal" target="_blank">Посмотреть код &rarr;</a>
-                        </div>
-                 
-                </div>
-                </div>
+            <main>
+                <section class="portfolio">
+                    <h3 id="portfolio-title">Мои проекты</h3>
 
-                <div id="video-projects" class="projects-content">
-<!--
-                    <div class="projects-grid">
-                        <div class="project-card">
-                            <h4>Рекламный ролик для соцсетей</h4>
-                            <p>Динамичный монтаж, базовая цветокоррекция и саунд-дизайн для локального бренда одежды. Сделано в Premiere Pro.</p>
-                            <a href="404.html">Смотреть видео &rarr;</a>
+                    <div id="coding-projects" class="projects-content">
+                        <div class="projects-grid">
+                            <div class="project-card">
+                                <h4>Система автоматизации «Академия Киокусинкай»</h4>
+                                <p>Десктопное приложение для автоматизации работы спортивной организации (учет тренеров, учеников и составление расписания). Проект разработан в рамках производственной практики в 2023 году.</p>
+                                <a href="https://github.com/Zillendaw/kyokushinkai-industrial-practice-2023-qt" target="_blank">Посмотреть код &rarr;</a>
+                            </div>
+                            <div class="project-card">
+                                <h4>Учебный фронтенд "Securo Serv"</h4>
+                                <p>Статический многостраничный сайт-визитка для вымышленного частного охранного предприятия. Разработан в 2022 году.</p>
+                                <a href="https://github.com/Zillendaw/Web-Site-Securo-Serv" target="_blank">Посмотреть код &rarr;</a>
+                            </div>
+                            <div class="project-card">
+                                <h4>Веб-сайт для строительной компании</h4>
+                                <p>Full-stack веб-приложение с «Экспертной системой» для автоматического подбора оборудования и системой сбора лидов через Telegram API.</p>
+                                <a href="https://github.com/Zillendaw/engineering-company-portal" target="_blank">Посмотреть код &rarr;</a>
+                            </div>
                         </div>
+                    </div>
+
+                    <div id="video-projects" class="projects-content">
+                        <div class="video-empty">
+                            <i class="fas fa-film"></i>
+                            <p>Видеопроекты скоро появятся здесь...</p>
                         </div>
--->
-                </div>
-            </section>
-        </main>
-		<p>Скоро появятся ещё проекты...</p>
-					
-        <footer>
-            <p>&copy; 2026 Александр Хван. Создано с помощью GitHub Pages.</p>
-        </footer>
+                    </div>
+                </section>
+            </main>
+
+            <p class="coming-soon">Скоро появятся ещё проекты...</p>
+
+            <footer>
+                <p>&copy; 2026 Александр Хван. Создано с помощью GitHub Pages.</p>
+            </footer>
+        </div>
     </div>
+
+    <!-- Модальное окно образования -->
+    <div id="eduModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <h3>Моё образование</h3>
+            <div class="edu-cards-container">
+                <div class="edu-card">
+                    <div class="edu-icon"><i class="fas fa-user-graduate"></i></div>
+                    <div class="edu-info">
+                        <h3>Среднее профессиональное образование</h3>
+                        <h5>2020–2025</h5>
+                        <p>Специальность: Информационные системы и программирование</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
-		function openModal() {
-			document.getElementById("eduModal").style.display = "flex";
-		}
+        const subtitles = {
+            dev:   'Программист · Web-разработчик',
+            video: 'Видеомонтажёр · Post-Production'
+        };
 
-		function closeModal() {
-			document.getElementById("eduModal").style.display = "none";
-		}
-		
-        // Функция открытия/закрытия меню
-        function toggleMenu() {
-            document.getElementById("contactMenu").classList.toggle("show");
+        function enter(type) {
+            const entryScreen = document.getElementById('entry-screen');
+            const mainSite    = document.getElementById('main-site');
+
+            document.getElementById('half-' + type).classList.add('split-card--chosen');
+
+            setTimeout(() => entryScreen.classList.add('entry-screen--exit'), 100);
+
+            setTimeout(() => {
+                entryScreen.style.display = 'none';
+                mainSite.classList.remove('main-site--hidden');
+                mainSite.classList.add('main-site--enter');
+
+                document.getElementById('site-subtitle').textContent = subtitles[type];
+                document.getElementById('coding-projects').style.display = type === 'dev'   ? 'block' : 'none';
+                document.getElementById('video-projects').style.display  = type === 'video' ? 'block' : 'none';
+                document.body.setAttribute('data-mode', type);
+            }, 520);
         }
 
-		// Закрытие окна при клике на темную область вокруг него
-		window.onclick = function(event) {
-			let modal = document.getElementById("eduModal");
-			if (event.target == modal) {
-				closeModal();
-			}
-			// Код для выпадающего меню
-			if (!event.target.matches('.btn-outline')) {
-				var dropdowns = document.getElementsByClassName("dropdown-content");
-				for (var i = 0; i < dropdowns.length; i++) {
-					var openDropdown = dropdowns[i];
-					if (openDropdown.classList.contains('show')) {
-						openDropdown.classList.remove('show');
-					}
-				}
-			}
-		}
-		
-		// Функция переключения вкладок портфолио
-        function showProjects(category, btnElement) {
-            // 1. Скрываем все блоки с карточками
-            let contents = document.querySelectorAll('.projects-content');
-            contents.forEach(content => content.classList.remove('active'));
+        function goBack() {
+            const entryScreen = document.getElementById('entry-screen');
+            const mainSite    = document.getElementById('main-site');
 
-            // 2. Убираем синюю заливку со всех кнопок
-            let buttons = document.querySelectorAll('.tab-btn');
-            buttons.forEach(btn => btn.classList.remove('active'));
+            mainSite.classList.add('main-site--hidden');
+            mainSite.classList.remove('main-site--enter');
 
-            // 3. Показываем нужный блок
-            document.getElementById(category + '-projects').classList.add('active');
-
-            // 4. Закрашиваем нажатую кнопку
-            btnElement.classList.add('active');
+            entryScreen.style.display = 'flex';
+            entryScreen.classList.remove('entry-screen--exit');
+            document.querySelectorAll('.split-card').forEach(c => c.classList.remove('split-card--chosen'));
+            document.body.removeAttribute('data-mode');
         }
-        
-        
-    </script><script src="tracker.js?v=2" defer></script>
+
+        function openModal()  { document.getElementById("eduModal").style.display = "flex"; }
+        function closeModal() { document.getElementById("eduModal").style.display = "none"; }
+        function toggleMenu() { document.getElementById("contactMenu").classList.toggle("show"); }
+
+        window.onclick = function(event) {
+            if (event.target == document.getElementById("eduModal")) closeModal();
+            if (!event.target.matches('.btn-outline')) {
+                document.querySelectorAll(".dropdown-content").forEach(dd => dd.classList.remove('show'));
+            }
+        };
+    </script>
+    <script src="tracker.js?v=2" defer></script>
 </body>
 </html>
