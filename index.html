@@ -140,9 +140,10 @@
 
             <main>
                 <section class="portfolio">
-                    <h3 id="portfolio-title">Мои проекты</h3>
-
+                    
                     <div id="coding-projects" class="projects-content">
+                        <h3 id="portfolio-title">Мои проекты</h3>
+                        
                         <div class="projects-grid">
                             <div class="project-card">
                                 <h4>Система автоматизации «Академия Киокусинкай»</h4>
@@ -163,15 +164,27 @@
                     </div>
 
                     <div id="video-projects" class="projects-content">
-                        <div class="video-empty">
-                            <i class="fas fa-film"></i>
-                            <p>Видеопроекты скоро появятся здесь...</p>
-                        </div>
-                    </div>
+                                <div class="projects-grid">
+                                    <div class="project-card">
+                                        <h4><i class="fas fa-briefcase"></i> Commerce Showreel</h4>
+                                        <p>Демонстрация навыков в коммерческом видеомонтаже, создании рекламных и промо-роликов.</p>
+                                        <button class="btn" style="margin-top: 15px;" onclick="openVideoModal('UZRvcrw7vlo')">
+                                            <i class="fas fa-play"></i> Смотреть
+                                        </button>
+                                    </div>
+                                    
+                                    <div class="project-card">
+                                        <h4><i class="fab fa-youtube" style="color: #ff0000;"></i> YouTube Showreel</h4>
+                                        <p>Нарезка лучших моментов, динамичный монтаж, работа с эффектами для YouTube-проектов.</p>
+                                        <button class="btn" style="margin-top: 15px;" onclick="openVideoModal('JEY2gAs5e-E')">
+                                            <i class="fas fa-play"></i> Смотреть
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
                 </section>
             </main>
-
-            <p class="coming-soon">Скоро появятся ещё проекты...</p>
 
             <footer>
                 <p>&copy; 2026 Александр Хван. Создано с помощью GitHub Pages.</p>
@@ -196,6 +209,15 @@
             </div>
         </div>
     </div>
+
+    <div id="videoModal" class="modal">
+            <div class="modal-content video-modal-content">
+                <span class="video-close-btn" onclick="closeVideoModal()">&times;</span>
+                <div class="video-container">
+                    <iframe id="videoPlayer" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+                </div>
+            </div>
+        </div>
 
     <script>
         const subtitles = {
@@ -240,9 +262,27 @@
         function closeModal() { document.getElementById("eduModal").style.display = "none"; }
         function toggleMenu() { document.getElementById("contactMenu").classList.toggle("show"); }
 
+        // Новые функции для видео
+        function openVideoModal(videoId) {
+            const modal = document.getElementById("videoModal");
+            const player = document.getElementById("videoPlayer");
+            // Подставляем ID видео и включаем автовоспроизведение
+            player.src = "https://www.youtube.com/embed/" + videoId + "?autoplay=1";
+            modal.style.display = "flex";
+        }
+
+        function closeVideoModal() {
+            const modal = document.getElementById("videoModal");
+            const player = document.getElementById("videoPlayer");
+            modal.style.display = "none";
+            player.src = ""; // Очищаем src, чтобы видео перестало играть в фоне
+        }
+
+        // Обновленный слушатель кликов (закрывает окна по клику вне их зоны)
         window.onclick = function(event) {
             if (event.target == document.getElementById("eduModal")) closeModal();
-            if (!event.target.matches('.btn-outline')) {
+            if (event.target == document.getElementById("videoModal")) closeVideoModal();
+            if (!event.target.matches('.btn-outline') && !event.target.closest('.dropdown')) {
                 document.querySelectorAll(".dropdown-content").forEach(dd => dd.classList.remove('show'));
             }
         };

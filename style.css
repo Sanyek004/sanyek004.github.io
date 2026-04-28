@@ -752,6 +752,58 @@ i { margin-right: 8px; }
 }
 
 /* =====================================================
+   ВИДЕО МОДАЛКА
+   ===================================================== */
+.video-modal-content {
+    max-width: 800px;
+    padding: 50px 15px 15px 15px; /* Увеличили верхний отступ под крестик */
+    background-color: #111; 
+    border: 1px solid #333;
+    position: relative;
+}
+
+/* Специфичный крестик для видео-модалки */
+.video-close-btn {
+    position: absolute;
+    top: 5px; 
+    right: 20px;
+    font-size: 36px; /* Сделали крупнее */
+    cursor: pointer;
+    color: #fff; /* Белый цвет для контраста */
+    transition: color 0.2s, transform 0.2s;
+    z-index: 10;
+    line-height: 1;
+}
+
+.video-close-btn:hover {
+    color: #ff4d4d; /* Красноватый оттенок при наведении */
+    transform: scale(1.1);
+}
+
+/* Контейнер для видео (пропорции 16:9) */
+.video-container {
+    position: relative;
+    padding-bottom: 56.25%; 
+    height: 0;
+    overflow: hidden;
+    border-radius: 8px;
+    background-color: #000;
+}
+
+.video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+@media (prefers-color-scheme: dark) {
+    .video-modal-content { background-color: #111; }
+}
+
+/* =====================================================
    ТЁМНАЯ ТЕМА (основной сайт)
    ===================================================== */
 @media (prefers-color-scheme: dark) {
