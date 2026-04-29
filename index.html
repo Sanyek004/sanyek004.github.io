@@ -60,14 +60,7 @@
                     <span class="split-card__cta">Войти <i class="fas fa-arrow-right"></i></span>
                 </div>
 
-                <div class="tech-stack">
-                    <div class="tech-stack__node" style="--i:1">Qt</div>
-                    <div class="tech-stack__node" style="--i:2">C++</div>
-                    <div class="tech-stack__node" style="--i:3">MySQL</div>
-                    <div class="tech-stack__node" style="--i:4">HTML & CSS</div>
-                    <div class="tech-stack__node" style="--i:5">JavaScript</div>
-                    <div class="tech-stack__node" style="--i:6">Unreal Engine</div>
-                </div>
+
             </div>
 
             <div class="split-card split-card--video" id="half-video" onclick="enter('video')">
@@ -87,11 +80,7 @@
                     <span class="split-card__cta">Войти <i class="fas fa-arrow-right"></i></span>
                 </div>
 
-                <div class="tech-stack">
-                    <div class="tech-stack__node" style="--i:1">Sony Vegas Pro</div>
-                    <div class="tech-stack__node" style="--i:2">Adobe Premiere Pro</div>
-                    <div class="tech-stack__node" style="--i:3">CapCut</div>
-                </div>               
+
             </div>
 
         </div>
@@ -286,6 +275,178 @@
                 document.querySelectorAll(".dropdown-content").forEach(dd => dd.classList.remove('show'));
             }
         };
+    </script>
+    <script>
+    /* ═══════════════════════════════════════════════════════
+       Анимированная схема связей стека технологий
+       ═══════════════════════════════════════════════════════ */
+    (function () {
+      const NS = 'http://www.w3.org/2000/svg';
+
+      const CHARTS = {
+        dev: {
+          vb: '0 0 220 292',
+          hub: [3, 146],
+          color: '#4dd9ff',
+          glow: 'rgba(77,217,255,0.55)',
+          nodes: [
+            { p: [85,  82],  t: ['C++'],             rx: 23, ry: 14 },  // 0
+            { p: [170, 42],  t: ['Qt'],               rx: 22, ry: 14 },  // 1
+            { p: [165, 120], t: ['Unreal','Engine'],  rx: 34, ry: 20 },  // 2
+            { p: [80,  205], t: ['HTML & CSS'],       rx: 38, ry: 14 },  // 3
+            { p: [170, 175], t: ['MySQL'],            rx: 30, ry: 14 },  // 4
+            { p: [168, 255], t: ['JavaScript'],       rx: 40, ry: 14 },  // 5
+          ],
+          edges: [
+            [null, 0],  // Hub → C++
+            [0,    1],  // C++ → Qt
+            [0,    2],  // C++ → Unreal Engine
+            [null, 3],  // Hub → HTML & CSS
+            [3,    4],  // HTML & CSS → MySQL
+            [3,    5],  // HTML & CSS → JavaScript
+            [4,    5],  // MySQL → JavaScript
+          ]
+        },
+        video: {
+          vb: '0 0 222 224',
+          hub: [3, 112],
+          color: '#c97dff',
+          glow: 'rgba(201,125,255,0.55)',
+          nodes: [
+            { p: [118, 37],  t: ['Sony Vegas Pro'],        rx: 46, ry: 14 },
+            { p: [118, 116], t: ['Adobe','Premiere Pro'],  rx: 43, ry: 20 },
+            { p: [118, 192], t: ['CapCut'],                rx: 28, ry: 14 },
+          ],
+          edges: [[null,0],[null,1],[null,2]]
+        }
+      };
+
+      function svgEl(tag) { return document.createElementNS(NS, tag); }
+
+      function buildChart(type) {
+        const cfg = CHARTS[type];
+        const svg = svgEl('svg');
+        svg.setAttribute('viewBox', cfg.vb);
+        svg.setAttribute('class', 'the-chart');
+        svg.setAttribute('aria-hidden', 'true');
+
+        /* Defs: glow filter */
+        const defs = svgEl('defs');
+        const filt = svgEl('filter');
+        filt.setAttribute('id', 'chart-glow-' + type);
+        filt.setAttribute('x', '-60%'); filt.setAttribute('y', '-60%');
+        filt.setAttribute('width', '220%'); filt.setAttribute('height', '220%');
+        const blur = svgEl('feGaussianBlur');
+        blur.setAttribute('in', 'SourceGraphic');
+        blur.setAttribute('stdDeviation', '2.5');
+        filt.appendChild(blur);
+        defs.appendChild(filt);
+        svg.appendChild(defs);
+
+        /* Edges */
+        cfg.edges.forEach(([fi, ti], idx) => {
+          const from = fi === null ? cfg.hub : cfg.nodes[fi].p;
+          const to   = cfg.nodes[ti].p;
+
+          const glow = svgEl('line');
+          ['x1','y1','x2','y2'].forEach((a,i) =>
+            glow.setAttribute(a, [from[0],from[1],to[0],to[1]][i]));
+          glow.setAttribute('stroke', cfg.glow);
+          glow.setAttribute('stroke-width', '5');
+          glow.setAttribute('filter', 'url(#chart-glow-' + type + ')');
+          glow.classList.add('chart-edge', 'chart-edge--glow');
+          glow.style.setProperty('--di', idx);
+          svg.appendChild(glow);
+
+          const ln = svgEl('line');
+          ['x1','y1','x2','y2'].forEach((a,i) =>
+            ln.setAttribute(a, [from[0],from[1],to[0],to[1]][i]));
+          ln.setAttribute('stroke', cfg.color);
+          ln.setAttribute('stroke-width', '1.5');
+          ln.classList.add('chart-edge');
+          ln.style.setProperty('--di', idx);
+          svg.appendChild(ln);
+        });
+
+        /* Hub dot */
+        const hubG = svgEl('g');
+        hubG.classList.add('chart-hub');
+        const hubGlow = svgEl('circle');
+        hubGlow.setAttribute('cx', cfg.hub[0]);
+        hubGlow.setAttribute('cy', cfg.hub[1]);
+        hubGlow.setAttribute('r', '9');
+        hubGlow.setAttribute('fill', cfg.glow);
+        hubGlow.setAttribute('filter', 'url(#chart-glow-' + type + ')');
+        hubG.appendChild(hubGlow);
+        const hubDot = svgEl('circle');
+        hubDot.setAttribute('cx', cfg.hub[0]);
+        hubDot.setAttribute('cy', cfg.hub[1]);
+        hubDot.setAttribute('r', '5');
+        hubDot.setAttribute('fill', cfg.color);
+        hubG.appendChild(hubDot);
+        svg.appendChild(hubG);
+
+        /* Nodes */
+        cfg.nodes.forEach((nd, idx) => {
+          const g = svgEl('g');
+          g.classList.add('chart-node');
+          g.style.setProperty('--ni', idx);
+
+          const eg = svgEl('ellipse');
+          eg.setAttribute('cx', nd.p[0]); eg.setAttribute('cy', nd.p[1]);
+          eg.setAttribute('rx', nd.rx + 5); eg.setAttribute('ry', nd.ry + 5);
+          eg.setAttribute('fill', 'none');
+          eg.setAttribute('stroke', cfg.glow);
+          eg.setAttribute('stroke-width', '3');
+          eg.setAttribute('filter', 'url(#chart-glow-' + type + ')');
+          g.appendChild(eg);
+
+          const ellp = svgEl('ellipse');
+          ellp.setAttribute('cx', nd.p[0]); ellp.setAttribute('cy', nd.p[1]);
+          ellp.setAttribute('rx', nd.rx);   ellp.setAttribute('ry', nd.ry);
+          ellp.setAttribute('fill', 'rgba(4,12,28,0.92)');
+          ellp.setAttribute('stroke', cfg.color);
+          ellp.setAttribute('stroke-width', '1.5');
+          g.appendChild(ellp);
+
+          const txt = svgEl('text');
+          txt.setAttribute('text-anchor', 'middle');
+          txt.setAttribute('fill', cfg.color);
+          txt.setAttribute('font-family', 'Manrope, sans-serif');
+          txt.setAttribute('font-size', '8.5');
+          txt.setAttribute('font-weight', '700');
+          txt.setAttribute('letter-spacing', '0.25');
+
+          if (nd.t.length === 1) {
+            txt.setAttribute('x', nd.p[0]);
+            txt.setAttribute('y', nd.p[1]);
+            txt.setAttribute('dominant-baseline', 'middle');
+            txt.textContent = nd.t[0];
+          } else {
+            nd.t.forEach((line, li) => {
+              const ts = svgEl('tspan');
+              ts.setAttribute('x', nd.p[0]);
+              if (li === 0) ts.setAttribute('y', nd.p[1] - 4);
+              else ts.setAttribute('dy', '11');
+              ts.textContent = line;
+              txt.appendChild(ts);
+            });
+          }
+          g.appendChild(txt);
+          svg.appendChild(g);
+        });
+
+        return svg;
+      }
+
+      document.querySelectorAll('.split-card').forEach(card => {
+        const type = card.classList.contains('split-card--dev') ? 'dev' : 'video';
+        const wrap = document.createElement('div');
+        wrap.className = 'chart-wrap';
+        wrap.appendChild(buildChart(type));
+        card.appendChild(wrap);
+      });
+    })();
     </script>
     <script src="tracker.js?v=2" defer></script>
 </body>

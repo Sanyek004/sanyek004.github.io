@@ -260,7 +260,8 @@ body {
 .split-card__inner {
     position: relative;
     z-index: 1;
-    width: 100%;
+    width: 46%;
+    min-width: 128px;
     display: flex;
     flex-direction: column;
     gap: 14px;
@@ -640,115 +641,85 @@ i { margin-right: 8px; }
 .edu-info p  { font-size: 0.9rem; color: #666; }
 
 /* =====================================================
-   АНИМАЦИЯ СТЕКА В СТИЛЕ "THE CHART"
+   Анимированная схема связей стека технологий
    ===================================================== */
-.tech-stack {
+
+/* Container: sits over the right half of the card */
+.chart-wrap {
     position: absolute;
-    right: 30px;
-    top: 50%;
-    transform: translateY(-50%);
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    padding-left: 25px; /* Место для главной линии связи */
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 57%;
+    pointer-events: none;
     z-index: 2;
-    pointer-events: none; /* Чтобы не мешать клику по карточке */
+    display: flex;
+    align-items: center;
 }
 
-/* Главная вертикальная линия (позвоночник связей) */
-.tech-stack::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 15px;
-    bottom: 15px;
-    width: 2px;
+.the-chart {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+}
+
+/* ── Edges (lines) ── */
+.chart-edge {
+    stroke-dasharray: 450;
+    stroke-dashoffset: 450;
     opacity: 0;
-    transform: scaleY(0);
-    transform-origin: top;
-    transition: transform 0.5s ease, opacity 0.5s ease;
+    transition:
+        stroke-dashoffset 0.6s cubic-bezier(0.4, 0, 0.2, 1) calc(var(--di) * 0.09s),
+        opacity           0.15s ease                          calc(var(--di) * 0.09s);
 }
 
-.split-card:hover .tech-stack::before {
+.split-card:hover .chart-edge {
+    stroke-dashoffset: 0;
     opacity: 1;
-    transform: scaleY(1);
 }
 
-/* Сами узлы технологий */
-.tech-stack__node {
-    position: relative;
-    font-size: 0.75rem;
-    font-weight: 700;
-    padding: 6px 14px;
-    border-radius: 8px;
-    white-space: nowrap;
-    background: rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(6px);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+/* Glow copies go to zero opacity on leave faster */
+.chart-edge--glow {
     opacity: 0;
-    transform: translateX(30px);
-    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-    /* Задержка появления зависит от номера --i */
-    transition-delay: calc(var(--i) * 0.07s); 
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    transition:
+        stroke-dashoffset 0.6s cubic-bezier(0.4, 0, 0.2, 1) calc(var(--di) * 0.09s),
+        opacity           0.2s ease                          calc(var(--di) * 0.09s);
 }
 
-/* Горизонтальные "ветви" (соединяющие узел с главной линией) */
-.tech-stack__node::before {
-    content: '';
-    position: absolute;
-    right: 100%;
-    top: 50%;
-    width: 25px;
-    height: 2px;
+.split-card:hover .chart-edge--glow {
+    opacity: 0.7;
+}
+
+/* ── Hub dot ── */
+.chart-hub {
     opacity: 0;
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.3s ease, opacity 0.3s ease;
-    transition-delay: calc((var(--i) * 0.07s) + 0.2s);
+    transition: opacity 0.3s ease 0.06s;
 }
 
-.split-card:hover .tech-stack__node {
+.split-card:hover .chart-hub {
     opacity: 1;
-    transform: translateX(0);
 }
 
-.split-card:hover .tech-stack__node::before {
-    opacity: 1;
-    transform: scaleX(1);
+/* ── Nodes (ellipses + text) ── */
+.chart-node {
+    opacity: 0;
+    transform-box:    fill-box;
+    transform-origin: center;
+    transform: scale(0.35);
+    transition:
+        opacity   0.35s ease                              calc(0.2s + var(--ni) * 0.1s),
+        transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) calc(0.2s + var(--ni) * 0.1s);
 }
 
-/* --- Специфичные цвета для карточки "РАЗРАБОТКА" --- */
-.split-card--dev .tech-stack__node {
-    color: #9eeeff;
-    border-color: rgba(77, 217, 255, 0.25);
-}
-.split-card--dev .tech-stack__node::before {
-    background: rgba(77, 217, 255, 0.4);
-}
-.split-card--dev .tech-stack::before {
-    background: linear-gradient(to bottom, rgba(77, 217, 255, 0.6), transparent);
+.split-card:hover .chart-node {
+    opacity:   1;
+    transform: scale(1);
 }
 
-/* --- Специфичные цвета для карточки "ВИДЕОМОНТАЖ" --- */
-.split-card--video .tech-stack__node {
-    color: #ddb5ff;
-    border-color: rgba(201, 125, 255, 0.25);
-}
-.split-card--video .tech-stack__node::before {
-    background: rgba(201, 125, 255, 0.4);
-}
-.split-card--video .tech-stack::before {
-    background: linear-gradient(to bottom, rgba(201, 125, 255, 0.6), transparent);
-}
-
-/* Адаптация под мобильные устройства: прячем или уменьшаем стек, чтобы он не налезал на текст */
+/* ── Mobile: hide chart, restore inner width ── */
 @media (max-width: 600px) {
-    .tech-stack {
-        right: 15px;
-        transform: scale(0.8) translateY(-50%);
-        transform-origin: right center;
-    }
+    .chart-wrap         { display: none; }
+    .split-card__inner  { width: 100%; min-width: 0; }
 }
 
 /* =====================================================
