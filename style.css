@@ -1076,6 +1076,129 @@ i { margin-right: 8px; }
     .video-modal-content { background-color: #111; }
 }
 
+/* ── Яндекс.Диск: карточка-ссылка ── */
+.video-yadisk-preview {
+    position: relative;
+    display: block;
+    aspect-ratio: 16 / 9;
+    background: #000;
+    overflow: hidden;
+    text-decoration: none;
+}
+
+/* Фолбэк-фон: виден всегда, перекрывается постером */
+.video-yadisk-fallback {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    background: linear-gradient(135deg, #1a063a 0%, #2d0f5a 50%, #180530 100%);
+    color: rgba(201, 125, 255, 0.55);
+    transition: color 0.3s ease;
+    user-select: none;
+}
+
+.video-yadisk-fallback i {
+    margin: 0;
+    font-size: 2.8rem;
+    opacity: 0.5;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.video-yadisk-fallback span {
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    opacity: 0.5;
+    transition: opacity 0.3s ease;
+}
+
+/* Постер — перекрывает фолбэк */
+.video-yadisk-preview img {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* Оверлей с кнопкой Play — всегда поверх всего */
+.video-yadisk-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    background: rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.25s ease;
+}
+
+.video-yadisk-play {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border: 2px solid rgba(255, 255, 255, 0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    color: #fff;
+    padding-left: 4px;
+    transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+}
+
+/* Ховер */
+.video-yadisk-preview:hover .video-yadisk-overlay {
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.video-yadisk-preview:hover .video-yadisk-play {
+    transform: scale(1.12);
+    background: rgba(201, 125, 255, 0.3);
+    border-color: rgba(201, 125, 255, 0.8);
+}
+
+.video-yadisk-preview:hover img {
+    transform: scale(1.04);
+    opacity: 0.8;
+}
+
+/* Ховер на фолбэк — оживляем иконку и текст */
+.video-yadisk-preview:hover .video-yadisk-fallback i {
+    opacity: 0.85;
+    transform: scale(1.1);
+}
+
+.video-yadisk-preview:hover .video-yadisk-fallback span {
+    opacity: 0.8;
+}
+
+/* Бейдж */
+.video-source-badge--yadisk {
+    background: rgba(255, 204, 0, 0.1);
+    color: #a07800;
+    border: 1px solid rgba(255, 204, 0, 0.28);
+}
+
+@media (prefers-color-scheme: dark) {
+    .video-source-badge--yadisk {
+        color: #ffd633;
+        background: rgba(255, 204, 0, 0.1);
+    }
+}
+
 /* =====================================================
    ТЁМНАЯ ТЕМА (основной сайт)
    ===================================================== */
